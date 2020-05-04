@@ -2,5 +2,11 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="lib/core.jar"/>
+	<classpathentry kind="lib" path="lib/fancyShapes.jar"/>
+	<classpathentry kind="lib" path="lib/jcert.jar"/>
+	<classpathentry kind="lib" path="lib/jnet.jar"/>
+	<classpathentry kind="lib" path="lib/jsse.jar"/>
+	<classpathentry kind="lib" path="lib/org.apache.commons.io.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
