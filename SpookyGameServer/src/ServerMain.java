@@ -14,7 +14,7 @@ public class ServerMain {
 	private static ServerSocket serverSocket;
 	
 	ArrayList<Entity> stuff = new ArrayList<Entity>();
-
+	ArrayList<Integer> players = new ArrayList<Integer>(); //indices in the stuff ArrayList (players are entities)
 	
 	private String fancyString = "";
 	private boolean changed = false;
@@ -47,7 +47,17 @@ public class ServerMain {
 			String temp = br.readLine();
 			System.out.println("Inputted Message: " + temp);
 			
-			returnMessage = stringifyStuff();
+			if (temp.substring(0, 9).contentEquals("newPlayer")) { //gets called when a player joins, and it will return the player's index when that happens
+				
+				if (!playerExists(temp.substring(9))) { //if the player already exists, don't reset them, substring(9) is their username
+					stuff.add(new Player(0, 0, 30, 40, 0, 5, temp.substring(9))); // a new player is added
+					players.add(stuff.size()-1);
+					returnMessage = "p"+(stuff.size()-1);
+				} else
+				returnMessage = "p"+getPlayerIndex(temp.substring(9));
+			}
+			else
+				returnMessage = stringifyStuff();
 			
 			OutputStream os = socket.getOutputStream();
 			OutputStreamWriter osw = new OutputStreamWriter(os);
@@ -78,6 +88,24 @@ public class ServerMain {
 		}
 		
 		return result;
+	}
+	
+	private boolean playerExists(String name) {
+		if (players.size() > 0) {
+			for (int e : players)
+				if (stuff.get(e).getName().equalsIgnoreCase(name))
+					return true;
+		}
+		return false;
+	}
+	
+	private int getPlayerIndex(String name) { // Returns -1 if no player exists by that name
+		if (players.size() > 0) {
+			for (int e : players)
+				if (stuff.get(e).getName().equalsIgnoreCase(name))
+					return e;
+		}
+		return -1;
 	}
 	
 }
