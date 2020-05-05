@@ -70,16 +70,26 @@ public class okGraphics extends PApplet {
 		m = m.substring(m.indexOf(':')+1);
 		
 		while (m.charAt(0) != '&' & m.length() > 2) {
-			stuff.get(si).edit( //REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-					Integer.parseInt(m.substring(0, m.indexOf(','))), 
-					Integer.parseInt(m.substring(m.indexOf(',')+1, m.indexOf(',', m.indexOf(',')+1))), 
-					Integer.parseInt(m.substring(m.indexOf(',', m.indexOf(',')+1), m.indexOf(',', m.indexOf(',', m.indexOf(',')+1)+1))), 
-					Integer.parseInt(m.substring(m.indexOf(',', m.indexOf(',', m.indexOf(',')+1)+1), m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',')+1)+1)+1))),
-					Integer.parseInt(m.substring(m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',')+1)+1)+1), m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',')+1)+1)+1)+1))),
-					Integer.parseInt(m.substring(m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',')+1)+1)+1)+1), m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',')+1)+1)+1)+1)+1))), 
-					Integer.parseInt(m.substring(m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',')+1)+1)+1)+1)+1), m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',')+1)+1)+1)+1)+1)+1))), 
+			//REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+			int x = Integer.parseInt(m.substring(0, m.indexOf(',')));
+			int y = Integer.parseInt(m.substring(m.indexOf(',')+1, m.indexOf(',', m.indexOf(',')+1)));
+			int vx = Integer.parseInt(m.substring(m.indexOf(',', m.indexOf(',')+1), m.indexOf(',', m.indexOf(',', m.indexOf(',')+1)+1)));
+			int vy = Integer.parseInt(m.substring(m.indexOf(',', m.indexOf(',', m.indexOf(',')+1)+1), m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',')+1)+1)+1)));
+			int w = Integer.parseInt(m.substring(m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',')+1)+1)+1), m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',')+1)+1)+1)+1)));
+			int h = Integer.parseInt(m.substring(m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',')+1)+1)+1)+1), m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',')+1)+1)+1)+1)+1)));
+			int icon = Integer.parseInt(m.substring(m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',')+1)+1)+1)+1)+1), m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',')+1)+1)+1)+1)+1)+1)));
+			String name = m.substring(m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',')+1)+1)+1)+1)+1)+1), m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',')+1)+1)+1)+1)+1)+1)+1));
+					
+			stuff.get(si).edit( 
+					x, 
+					y, 
+					vx, 
+					vy,
+					w,
+					h, 
+					icon, 
 					this,
-					m.substring(m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',')+1)+1)+1)+1)+1)+1), m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',')+1)+1)+1)+1)+1)+1)+1))
+					name
 					);
 			si++;
 			m = m.substring(m.indexOf('/')+1);

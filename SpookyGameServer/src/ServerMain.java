@@ -67,12 +67,13 @@ public class ServerMain extends JPanel implements ActionListener {
 			int tempID;
 			System.out.println("Inputted Message: " + temp);
 			
-			if (temp.substring(0, 9).contentEquals("newPlayer")) { //gets called when a player joins, and it will return the player's index when that happens
+			if (temp.length() >8 && temp.substring(0, 9).contentEquals("newPlayer")) { //gets called when a player joins, and it will return the player's index when that happens
 				
 				if (!playerExists(temp.substring(9))) { //if the player already exists, don't reset them, substring(9) is their username
 					stuff.add(new Player(0, 0, 30, 40, 0, 5, temp.substring(9))); // a new player is added
 					players.add(stuff.size()-1);
 					returnMessage = "p"+(stuff.size()-1);
+					changed = true;
 				} else
 				returnMessage = "p"+getPlayerIndex(temp.substring(9));
 			}
@@ -123,16 +124,19 @@ public class ServerMain extends JPanel implements ActionListener {
 	}
 	
 	private String stringifyStuff(int pID) {
+		
 		String result = pID + ":";
 		if (!changed)
 			return fancyString;
-		
+		System.out.print("Stringify: ");
 		for (Entity e : stuff) {
 			result += e.x+","+e.y+","+e.vx+","+e.vy+","+e.w+","+e.h+","+e.icon;
 			if (e instanceof Player) result += ","+e.getName();
 			result+="/";
 		}
 		result += "&";
+		System.out.println(result);
+		changed = false;
 		return result;
 	}
 	
@@ -157,8 +161,11 @@ public class ServerMain extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		onMessage();
 		for (int i = 0; i < stuff.size(); i++) {
 			stuff.get(i).update();
+			if (stuff.get(i).vx != 0 || stuff.get(i).vy != 0)
+				changed = true;
 			if (stuff.get(i).dead) {
 				stuff.remove(i);
 				i--;

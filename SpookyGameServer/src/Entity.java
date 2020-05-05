@@ -1,7 +1,7 @@
 
 public class Entity {
 	int x, y;
-	float vx, vy;
+	int vx = 0, vy = 0;
 	int w, h;
 	String name;
 	boolean dead = false;
