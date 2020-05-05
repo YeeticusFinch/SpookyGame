@@ -13,7 +13,7 @@ public class okGraphics extends PApplet {
 	boolean[] keys = new boolean[200];
 	
 	public okGraphics() { //Constructor
-		
+		name = "Fred";
 		playerIndex = Integer.parseInt(Communicator.transmit("newPlayer"+name).substring(1));
 		System.out.println("Your player index is " + playerIndex);
 	}
@@ -30,12 +30,15 @@ public class okGraphics extends PApplet {
 		
 		if (millis()-lastUpdate>50)
 			update();
+		
+		System.out.println("drawed");
 	}
 	
 	public void update() {
 		parseMessage(Communicator.transmit(controllerMessage()));
 		for (Sprite e : stuff)
 			e.update();
+		System.out.println("updated");
 	}
 	
 	public String controllerMessage() {
