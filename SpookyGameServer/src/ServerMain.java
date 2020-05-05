@@ -86,7 +86,7 @@ public class ServerMain {
 			if (e instanceof Player) result += ","+e.getName();
 			result+="/";
 		}
-		
+		result += "&";
 		return result;
 	}
 	

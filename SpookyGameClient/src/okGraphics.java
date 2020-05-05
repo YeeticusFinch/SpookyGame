@@ -30,7 +30,27 @@ public class okGraphics extends PApplet {
 		updateCount++;
 	}
 	
-	public void parseMessage(String message) {
+	// message = x,y,vx,vy,w,h,icon/&;
+	// message = x,y,vx,vy,w,h,icon,name/&;
+	//edit(int x, int y, int vx, int vy, int w, int h, int icon, PApplet g, String name)
+	public void parseMessage(String m) {
+		int si = 0; //Sprite index
+		
+		while (m.charAt(0) != '&' & m.length() > 2) {
+			stuff.get(si).edit( //REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+					Integer.parseInt(m.substring(0, m.indexOf(','))), 
+					Integer.parseInt(m.substring(m.indexOf(',')+1, m.indexOf(',', m.indexOf(',')+1))), 
+					Integer.parseInt(m.substring(m.indexOf(',', m.indexOf(',')+1), m.indexOf(',', m.indexOf(',', m.indexOf(',')+1)+1))), 
+					Integer.parseInt(m.substring(m.indexOf(',', m.indexOf(',', m.indexOf(',')+1)+1), m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',')+1)+1)+1))),
+					Integer.parseInt(m.substring(m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',')+1)+1)+1), m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',')+1)+1)+1)+1))),
+					Integer.parseInt(m.substring(m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',')+1)+1)+1)+1), m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',')+1)+1)+1)+1)+1))), 
+					Integer.parseInt(m.substring(m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',')+1)+1)+1)+1)+1), m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',')+1)+1)+1)+1)+1)+1))), 
+					this,
+					m.substring(m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',')+1)+1)+1)+1)+1)+1), m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',', m.indexOf(',')+1)+1)+1)+1)+1)+1)+1))
+					);
+			si++;
+			m = m.substring(m.indexOf('/')+1);
+		}
 		
 	}
 	
