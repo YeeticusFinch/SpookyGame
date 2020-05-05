@@ -17,8 +17,10 @@ public class Communicator {
     	String message = "";
         try
         {
-            String host = "ovh.lerdorf.com";
-        	//String host = "localhost";
+        	//Only uncomment one of the following
+            String host = "ovh.lerdorf.com"; //Choose this one to connect to server (server must be running on ovh.lerdorf.com)
+        	//String host = "localhost"; //Choose this one to run locally (server must also be running locally)
+            
             int port = 25000;
             InetAddress address = InetAddress.getByName(host);
             socket = new Socket(address, port);

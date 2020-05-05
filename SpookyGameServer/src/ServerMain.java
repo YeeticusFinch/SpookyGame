@@ -1,3 +1,5 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStream;
@@ -7,8 +9,14 @@ import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import javax.swing.JPanel;
+import javax.swing.Timer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class ServerMain {
+import javax.swing.JPanel;
+
+public class ServerMain extends JPanel implements ActionListener {
 
 	private static Socket socket;
 	private static ServerSocket serverSocket;
@@ -19,7 +27,9 @@ public class ServerMain {
 	private String fancyString = "";
 	private boolean changed = false;
 	
-	public static void main() {
+	Timer fancyClock;
+	
+	public static void main(String args[]) {
 		try {
 			
 			int port = 25000;
@@ -34,6 +44,15 @@ public class ServerMain {
 			} catch (Exception e) {
 			}
 		}
+		
+		ServerMain fancyServer = new ServerMain();
+	}
+	
+	public ServerMain() { // constructor runs once on startup
+		fancyClock = new Timer(50, (ActionListener) this); //Timer fires every 50 milliseconds
+		//fancyClock.setInitialDelay(500); //Wait half a second before starting
+		fancyClock.setRepeats(true);
+		fancyClock.start();
 	}
 	
 	private void onMessage() {
@@ -45,6 +64,7 @@ public class ServerMain {
 			InputStreamReader isr = new InputStreamReader(is);
 			BufferedReader br = new BufferedReader(isr);
 			String temp = br.readLine();
+			int tempID;
 			System.out.println("Inputted Message: " + temp);
 			
 			if (temp.substring(0, 9).contentEquals("newPlayer")) { //gets called when a player joins, and it will return the player's index when that happens
@@ -56,8 +76,34 @@ public class ServerMain {
 				} else
 				returnMessage = "p"+getPlayerIndex(temp.substring(9));
 			}
-			else
-				returnMessage = stringifyStuff();
+			else {
+				
+				tempID = Integer.parseInt(temp.substring(0, temp.indexOf(':'))); //Player index
+				Player p = (Player)stuff.get(players.get(tempID));
+				if (!p.username.equalsIgnoreCase(temp.substring(temp.indexOf(':')+1, temp.indexOf('&')))) {
+					tempID = getPlayerIndex(temp.substring(temp.indexOf(':')+1, temp.indexOf('&')));
+					p = (Player)stuff.get(players.get(tempID));
+				}
+				temp = temp.substring(temp.indexOf(':')+1);
+				p.vx = 0;
+				p.vy = 0;
+				for (int i = 0; i < temp.length(); i++) {
+					switch (temp.charAt(i)) {
+						case 'w':
+							p.vy = -p.speed;
+							break;
+						case 'd':
+							p.vx = p.speed;
+						case 's':
+							p.vy = p.speed;
+						case 'a':
+							p.vx = -p.speed;
+					}
+				}
+				
+				returnMessage = stringifyStuff(tempID);
+			}
+				
 			
 			OutputStream os = socket.getOutputStream();
 			OutputStreamWriter osw = new OutputStreamWriter(os);
@@ -76,8 +122,8 @@ public class ServerMain {
 		}
 	}
 	
-	private String stringifyStuff() {
-		String result = "";
+	private String stringifyStuff(int pID) {
+		String result = pID + ":";
 		if (!changed)
 			return fancyString;
 		
@@ -106,6 +152,18 @@ public class ServerMain {
 					return e;
 		}
 		return -1;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		for (int i = 0; i < stuff.size(); i++) {
+			stuff.get(i).update();
+			if (stuff.get(i).dead) {
+				stuff.remove(i);
+				i--;
+			}
+		}
 	}
 	
 }

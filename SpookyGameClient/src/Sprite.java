@@ -54,6 +54,10 @@ public class Sprite {
 		g.image(icon, x, y);
 		if (name != null)
 			g.text(name, x+w/2, y+4*h/3);
+		
+	}
+	
+	public void update() {
 		x += vx;
 		y += vy;
 	}

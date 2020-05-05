@@ -8,6 +8,9 @@ public class okGraphics extends PApplet {
 	String name = "";
 	int playerIndex;
 	int updateCount = 0;
+	long lastUpdate = 0;
+	
+	boolean[] keys = new boolean[200];
 	
 	public okGraphics() { //Constructor
 		
@@ -25,9 +28,29 @@ public class okGraphics extends PApplet {
 		for (Sprite e : stuff)
 			e.draw(this);
 		
-		if (updateCount >= 10)
-			parseMessage(Communicator.transmit("update"));
-		updateCount++;
+		if (millis()-lastUpdate>50)
+			update();
+	}
+	
+	public void update() {
+		parseMessage(Communicator.transmit(controllerMessage()));
+		for (Sprite e : stuff)
+			e.update();
+	}
+	
+	public String controllerMessage() {
+		String r = ""+playerIndex+":"+name+"&";
+		
+		if (keys[87])
+			r += "w";
+		if (keys[65])
+			r += "d";
+		if (keys[83])
+			r += "s";
+		if (keys[68])
+			r += "a";
+		
+		return r;
 	}
 	
 	// message = x,y,vx,vy,w,h,icon/&;
@@ -35,6 +58,13 @@ public class okGraphics extends PApplet {
 	//edit(int x, int y, int vx, int vy, int w, int h, int icon, PApplet g, String name)
 	public void parseMessage(String m) {
 		int si = 0; //Sprite index
+		
+		int pID = Integer.parseInt(m.substring(0, m.indexOf(':')));
+		if (pID != playerIndex) {
+			playerIndex = pID;
+		}
+		
+		m = m.substring(m.indexOf(':')+1);
 		
 		while (m.charAt(0) != '&' & m.length() > 2) {
 			stuff.get(si).edit( //REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
@@ -52,6 +82,22 @@ public class okGraphics extends PApplet {
 			m = m.substring(m.indexOf('/')+1);
 		}
 		
+	}
+	
+	public void keyPressed() {
+		keys[keyCode] = true;
+		/*if (keyCode == 87)
+			keyCode = this.UP;
+		else if (keyCode == 65)
+			keyCode = this.LEFT;
+		else if (keyCode == 83)
+			keyCode = this.DOWN;
+		else if (keyCode == 68)
+			keyCode = this.RIGHT;*/
+	}
+	
+	public void keyReleased() {
+		keys[keyCode] = false;
 	}
 	
 }

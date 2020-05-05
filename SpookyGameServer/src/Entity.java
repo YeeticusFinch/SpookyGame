@@ -4,6 +4,7 @@ public class Entity {
 	float vx, vy;
 	int w, h;
 	String name;
+	boolean dead = false;
 	
 	int icon; //each number corresponds to an image (example: 1.png)
 	
@@ -20,6 +21,9 @@ public class Entity {
 		return name;
 	}
 	
-	
+	public void update() {
+		x+=vx;
+		y+=vy;
+	}
 	
 }
