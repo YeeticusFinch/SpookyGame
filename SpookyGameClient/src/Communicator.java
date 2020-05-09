@@ -11,15 +11,16 @@ import java.net.Socket;
 public class Communicator {
  
     private static Socket socket;
+    public static String host;
     
     public static String transmit(String text)
     {
     	String message = "";
         try
         {
-        	//Only uncomment one of the following
-            //String host = "ovh.lerdorf.com"; //Choose this one to connect to server (server must be running on ovh.lerdorf.com)
-        	String host = "localhost"; //Choose this one to run locally (server must also be running locally)
+        	//Only uncomment one of the following (DEPRICATED)
+            //host = "ovh.lerdorf.com"; //Choose this one to connect to server (server must be running on ovh.lerdorf.com)
+        	//host = "localhost"; //Choose this one to run locally (server must also be running locally)
             
             int port = 25000;
             InetAddress address = InetAddress.getByName(host);

@@ -46,6 +46,7 @@ public class ServerMain extends JPanel implements ActionListener {
 		}
 		
 		ServerMain fancyServer = new ServerMain();
+
 	}
 	
 	public ServerMain() { // constructor runs once on startup
@@ -53,6 +54,15 @@ public class ServerMain extends JPanel implements ActionListener {
 		//fancyClock.setInitialDelay(500); //Wait half a second before starting
 		fancyClock.setRepeats(true);
 		fancyClock.start();
+		while (true) {
+			try {
+				Thread.sleep(100000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.out.println("REEEEE");
+			}
+		}
 	}
 	
 	private void onMessage() {
@@ -85,7 +95,8 @@ public class ServerMain extends JPanel implements ActionListener {
 					tempID = getPlayerIndex(temp.substring(temp.indexOf(':')+1, temp.indexOf('&')));
 					p = (Player)stuff.get(players.get(tempID));
 				}
-				temp = temp.substring(temp.indexOf(':')+1);
+				temp = temp.substring(temp.indexOf('&')+1);
+				System.out.println("keyPresses = " + temp);
 				p.vx = 0;
 				p.vy = 0;
 				for (int i = 0; i < temp.length(); i++) {
@@ -94,15 +105,21 @@ public class ServerMain extends JPanel implements ActionListener {
 							p.vy = -p.speed;
 							break;
 						case 'd':
-							p.vx = p.speed;
+							p.vx = -p.speed;
+							break;
 						case 's':
 							p.vy = p.speed;
+							break;
 						case 'a':
-							p.vx = -p.speed;
+							p.vx = p.speed;
+							break;
 					}
 				}
 				
-				returnMessage = stringifyStuff(tempID);
+				if (changed)
+					returnMessage = stringifyStuff(tempID);
+				else
+					returnMessage = "";
 			}
 				
 			
@@ -135,6 +152,7 @@ public class ServerMain extends JPanel implements ActionListener {
 			result+="/";
 		}
 		result += "&";
+		fancyString = result;
 		System.out.println(result);
 		changed = false;
 		return result;
@@ -162,6 +180,7 @@ public class ServerMain extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		onMessage();
+		System.out.println("3");
 		for (int i = 0; i < stuff.size(); i++) {
 			stuff.get(i).update();
 			if (stuff.get(i).vx != 0 || stuff.get(i).vy != 0)
